@@ -22,7 +22,6 @@ function enviarDatos() {
   // Puedes realizar acciones con los datos, como enviarlos a un servidor
   // Por ahora, solo los mostraremos en la consola
   console.log('Precio:', precio);
-  console.log('Precio:', precio);
   console.log('Cantidad:', cantidad);
   console.log('Tasa de Crecimiento:', tasaCrecimiento);
   console.log('Ingresos:', ingresos);
@@ -43,4 +42,10 @@ function agregarFilaResultado(dato, valor) {
   const cellValor = row.insertCell(1);
   cellDato.innerHTML = dato;
   cellValor.innerHTML = valor;
+}
+
+// Añadir celdas para cada mes (120 meses)
+for (let i = 0; i < 120; i++) {
+  const cellMes = row.insertCell(i + 2);
+  cellMes.innerHTML = ''; // Puedes establecer valores predeterminados o dejar en blanco
 }
