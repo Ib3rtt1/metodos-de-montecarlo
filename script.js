@@ -1,51 +1,54 @@
+
+
 function enviarDatos() {
   // Obtener valores de los campos
-  const precio = document.getElementById('precio').value;
-  function enviarDatos() {
-  // Obtener valores de los campos
-  const precio = document.getElementById('precio').value;
-  const cantidad = document.getElementById('cantidad').value;
-  const tasaCrecimiento = document.getElementById('tasaCrecimiento').value;
-  const ingresos = document.getElementById('ingresos').value;
-  const costos = document.getElementById('costos').value;
-  const gastos = document.getElementById('gastos').value;
-  const margen = document.getElementById('margen').value;
-  const impuestos = document.getElementById('impuestos').value;
-  const ebitda = document.getElementById('ebitda').value;
+  const precio = parseFloat(document.getElementById('precio').value);
+  const cantidad = parseFloat(document.getElementById('cantidad').value);
+  const tasaCrecimiento = parseFloat(document.getElementById('tasaCrecimiento').value);
+  const costos = parseFloat(document.getElementById('costos').value);
+  const gastos = parseFloat(document.getElementById('gastos').value);
+  const impuestos = parseFloat(document.getElementById('impuestos').value);
+  const ebitda = parseFloat(document.getElementById('ebitda').value);
 
-  // Puedes realizar acciones con los datos, como enviarlos a un servidor
-  // Por ahora, solo los mostraremos en la consola
-    
-}
-  // Obtener otros valores de campos...
+  // Calcular ingresos (puedes realizar cálculos adicionales según tus necesidades)
+  const ingresos = precio * cantidad;
 
-  // Puedes realizar acciones con los datos, como enviarlos a un servidor
-  // Por ahora, solo los mostraremos en la consola
-  console.log('Precio:', precio);
-  console.log('Cantidad:', cantidad);
-  console.log('Tasa de Crecimiento:', tasaCrecimiento);
-  console.log('Ingresos:', ingresos);
-  console.log('Costos:', costos);
-  console.log('Gastos:', gastos);
-  console.log('Margen:', margen);
-  console.log('Impuestos:', impuestos);
-  console.log('EBITDA:', ebitda);
-  // Mostrar otros valores en la consola...
-  // Agregar fila a la tabla de resultados
-  agregarFilaResultado('Precio', precio);
+  // Guardar resultados en localStorage para que estén disponibles en flujo.html
+  localStorage.setItem('ingresos', ingresos);
+  localStorage.setItem('costos', costos); // Puedes hacer lo mismo con otros valores
+
+  // Redirigir a flujo.html
+  window.location.href = `flujo.html?precio=${precio}&cantidad=${cantidad}&ingresos=${ingresos}&costos=${costos}`;
 }
 
-function agregarFilaResultado(dato, valor) {
-  const table = document.getElementById('resultadosTable');
-  const row = table.insertRow(-1);
-  const cellDato = row.insertCell(0);
-  const cellValor = row.insertCell(1);
-  cellDato.innerHTML = dato;
-  cellValor.innerHTML = valor;
+// Función para limpiar localStorage
+function limpiarLocalStorage() {
+  localStorage.removeItem('ingresos');
+  localStorage.removeItem('costos'); // Limpia otros valores según sea necesario
 }
 
-// Añadir celdas para cada mes (120 meses)
-for (let i = 0; i < 120; i++) {
-  const cellMes = row.insertCell(i + 2);
-  cellMes.innerHTML = ''; // Puedes establecer valores predeterminados o dejar en blanco
+// Agregamos esta función para mostrar los resultados en la tabla
+function mostrarResultados() {
+  // Obtener resultados desde localStorage
+  const ingresos = localStorage.getItem('ingresos');
+  const costos = localStorage.getItem('costos'); // Puedes hacer lo mismo con otros valores
+
+  // Mostrar resultados en la tabla
+  document.getElementById('ingresosResultado').innerText = ingresos;
+  // También puedes hacer lo mismo para otros valores en la tabla
+}
+
+// Llamamos a la función al cargar la página
+mostrarResultados();
+
+
+// Agregamos esta función para limpiar localStorage al volver a ingresar datos
+function volverAIngresarDatos() {
+  limpiarLocalStorage();
+}
+
+// Asignamos la función al enlace o botón de volver a ingresar datos
+const enlaceVolver = document.querySelector('a[href="index.html"]');
+if (enlaceVolver) {
+  enlaceVolver.addEventListener('click', volverAIngresarDatos);
 }
